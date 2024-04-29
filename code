@@ -1,0 +1,1544 @@
+
+1
+LED Blinking on Nucleo64-
+STM2L152RE Board
+
+2
+Working with LED’s and switches
+AIM
+23/01/2024 10
+3
+Working with PWM and Buzzers 30/01/2024 19
+4
+WORKING WITH SERIAL PORT 
+AND ADC
+06/02/2024 31
+5
+Working with LCD 20/02/2024 43
+6
+Working with Servo Motor, PWM 
+and LDR
+27/02/2024 51
+7
+Working with Ultrasonic Sensor 05/03/2024 61
+8
+Working with SPI 12/03/2024 71
+9
+Working with Bluetooth HC-05 19/03/2024 78
+10 Working with I2C 26/03/2024 89
+11 Working with mbed RTOS 16/04/2024 96
+3
+
+LAB – 01: LED Blinking on Nucleo64-STM2L152RE
+Board
+AIM:
+To write a program to blink an on-board LED (LD2) of the STM32 Nucleo-64 board with 0.5s delay between ON and
+OFF state using Keil Studio Cloud IDE.
+Lab Task-1: Blinking of LED on Board
+Lab Task-2: Blinking of LEDs alternatively in pairs
+Lab Task-3: Blinking one LED at a time serially
+Software Required: ARM Keil Studio (Mbed Online Compiler)
+Hardware Required: Micro USB cable, NUCLEO64-STM32L152 Board, LEDs, Jumper Wires (M-F and MM), Breadboard
+Procedure:
+1. Go to ARM Keil Studio (https://studio.keil.arm.com) and log in
+2. Select File → New → Mbed Project
+3. Click the Example project drop-down list and select “mbed2-example-blinky”
+4. In Project name field, provide the name of the new project and click Add project
+5. Double click on the “main.cpp” file from the newly created project folder
+6. Modify the code in the editor window as per the logic of your application
+7. Check for any errors in the program under the “Problems” tab of the panels window
+8. If no errors, connect the Nucleo Board to the computer using Micro USB Cable
+9. Click Play icon (Run project) to upload and start the code execution on the board.
+PROGRAM:
+Lab Task 1: Blinking of onboard LED
+#include "mbed.h"
+DigitalOut myled(LED1);
+5
+int main() {
+while(1) {
+myled = 1;
+wait(0.5);
+myled = 0;
+wait(0.5);
+}
+}
+Output:
+INFERENCE:
+The above code is an example of blinking the onboard LED using the mbed library functions. The LED is
+turned on for 0.5 seconds and then turned off for 0.5 seconds continuously.
+RESULT:
+6
+The onboard LED on the microcontroller will blink on and off with a frequency of 1 Hz (1 cycle per
+second).
+Lab Task-2: Blinking of LEDs alternatively in pairs
+Program:
+#include "mbed.h"
+DigitalOut myled1(PC_4);
+DigitalOut myled2(PB_13);
+DigitalOut myled3(PB_14);
+DigitalOut myled4(PB_15);
+int main() {
+while(1) {
+myled1 = 1;
+myled2 = 0;
+myled3 = 1;
+myled4 = 0;
+wait(0.5);
+myled1 = 0;
+myled2 = 1;
+myled3 = 0;
+myled4 = 1;
+wait(0.5);
+}
+}
+Output:
+7
+8
+INFERENCE:
+The above code is written to blink LEDs alternatively in pairs. The LEDs myled1 and myled3 are switched
+on while myled2 and myled4 are switched off for 0.5 seconds. Then, myled1 and myled3 are switched off while
+myled2 and myled4 are switched on for the next 0.5 seconds. This blinking pattern is repeated continuously in a
+loop.
+RESULT:
+The result of the above code is that the two pairs of LEDs will blink alternatively. The first pair (myled1 and
+myled3) will be switched on for 0.5 seconds and then switched off for 0.5 seconds. Simultaneously, the second
+pair (myled2 and myled4) will be switched off for 0.5 seconds and then switched on for 0.5 seconds. This blinking
+pattern will continue indefinitely until the program is stopped.)
+Lab Task-3: Blinking one LED at a time serially
+Program:
+#include "mbed.h"
+DigitalOut leds[] = {DigitalOut(PC_4), DigitalOut(PB_13), DigitalOut(PB_14), DigitalOut(PB_15)};
+int currentLed = 0;
+int main() {
+while(1) {
+leds[currentLed] = 1;
+wait(0.5);
+leds[currentLed] = 0;
+currentLed++;
+if (currentLed >= 4) {
+currentLed = 0;
+}
+}
+}
+9
+
+LAB – 02: Working with LED’s and switchesAIM:
+Aim:
+To understand the working of Nucleo64-STM32L152RE Board and to perform the following tasks:
+• Lab Task-1: Display Hexadecimal counting sequence in LED’s
+• Lab Task-2: Controlling LED blinking sequence using switch.
+• Challenging Task-1: Simulate a traffic light using LED’s
+Software Required: ARM Keil Studio (Mbed Online Compiler)
+Hardware Required: Micro USB cable, NUCLEO64-STM32L152 Board, LEDs, Jumper Wires (M-F and MM), Breadboard
+Procedure:
+• Go to ARM Keil Studio (https://studio.keil.arm.com) and log in
+• Select File → New → Mbed Project
+• Click the Example project drop-down list and select “mbed2-example-blinky”
+• In Project name field, provide the name of the new project and click Add project
+• Double click on the “main.cpp” file from the newly created project folder
+• Modify the code in the editor window as per the logic of your application
+• Check for any errors in the program under the “Problems” tab of the panels window
+• If no errors, connect the Nucleo Board to the computer using Micro USB Cable
+• Click Play icon (Run project) to upload and start the code execution on the board.
+Lab Task 1: Display Hexadecimal counting sequence in LED’s
+Aim: Write a C++ program with mbed APIs to display Hexadecimal counting pattern from 0 to 15 by blinking
+LEDs. Implement and verify the logic on the STM32 Nucleo-64 board using Keil Studio Cloud IDE.
+Program:
+#include "mbed.h"
+BusOut myleds(PC_4, PB_13, PB_14, PB_15);
+int main() {
+while(1) {
+for(int i=0; i<16; i++) {
+myleds = i;
+wait(2);
+}
+11
+Output:
+Output Verification:
+Inference:
+}
+}
+12
+This C++ program, using the mbed library, controls four LEDs connected to specific pins on the STM32
+microcontroller displays the numbers 0 to 15 hexadecimal numbers.
+Lab Task 2: Controlling LED blinking sequence using switch.
+Aim: Write a C++ program with mbed APIs to blink one LED at a time serially in a group of 4 LEDs
+using switch.
+• If switch is LOW, blink the LEDs one at a time from left to right with a 0.5 second delay.
+• If switch is HIGH, blink the LEDs one at a time from right to left with a 0.5 second delay.
+Program:
+Output:
+#include "mbed.h"
+DigitalIn switch1(PC_10);
+BusOut myled(PC_4, PB_13, PB_14, PB_15);
+int main() {
+while(1) {
+if(switch1==0)
+{
+myled = 8;
+wait(0.5);
+myled = 4;
+wait(0.5);
+myled = 2;
+wait(0.5);
+myled = 1;
+wait(0.5);
+}
+else
+{
+myled = 1;
+wait(0.5);
+myled = 2;
+wait(0.5);
+myled = 4;
+wait(0.5);
+myled = 8;
+wait(0.5);
+}
+}
+}
+13
+Fig 1-4: LED’s glowing 1000, 0100, 0010, 0001
+Output Verification:
+14
+Inference:
+This C++ program, using the mbed library, controls four LEDs connected to specific pins on the STM32
+microcontroller and blinks LEDs from left to right if switch is LOW and blinks right to left is switch is
+HIGH
+Challenging Task: Simulate a traffic light using LED’s
+Aim: Write a C++ program with mbed APIs to design a traffic light controller system for a four-lane
+junction (North, South, East, West) to coordinate the traffic moves.
+• Use 12 LEDs (3 for each direction) for traffic light signal indication and switch decide the traffic
+light mode
+• If switch is LOW, traffic light operates in late night mode in which only yellow light (LED) in all
+lanes blink for every 2 seconds
+• If switch is HIGH, traffic light operates in late normal mode in which signal sequence are applied
+in opposite lanes with green signal for 15 seconds then yellow for 2 seconds and then red.
+• Carry out the same operation for the other two directions.
+Implement and verify this logic on the STM32 Nucleo-64 board using Keil Studio Cloud IDE.
+Program:
+15
+#include "mbed.h"
+DigitalIn switch1(PC_10);
+BusOut myled1(PC_4,PB_13,PB_14);
+BusOut myled2(PB_15,PB_1,PB_2);
+BusOut myled3(PB_11,PB_12,PA_11);
+BusOut myled4(PC_5,PC_6,PC_8);
+int main() {
+while (true) {
+if(switch1 == 1)
+{
+myled1 = 4;
+myled2 = 1;
+myled3 = 4;
+myled4 = 1;
+wait(15);
+myled1 = 2;
+myled2 = 2;
+myled3 = 2;
+myled4 = 2;
+wait(2);
+myled1 = 1;
+myled2 = 4;
+myled3 = 1;
+myled4 = 4;
+wait(10);
+myled1 = 2;
+myled2 = 2;
+myled3 = 2;
+myled4 = 2;
+wait(2);
+}
+else
+{
+myled1 = 2;
+myled2 = 2;
+myled3 = 2;
+myled4 = 2;
+wait(2);
+myled1 = 0;
+myled2 = 0;
+myled3 = 0;
+myled4 = 0;
+wait(2);
+}
+}
+}
+16
+Output:
+Output Verification:
+Inference:
+This C++ program for the STM32 Nucleo-64 board uses the mbed library to create a traffic light
+controller for a four-lane junction. The traffic light mode is determined by a switch: in late night mode
+(switch LOW), all lanes blink yellow every 2 seconds; in normal mode (switch HIGH), the traffic lights
+follow a sequence of green, yellow, and red in a coordinated manner, alternating between lanes. The
+17
+program continuously loops to ensure the proper functioning of the traffic lights based on the specified
+conditions.
+Result:
+The working of Nucleo-STM32L152RE microcontroller board is studied and the required tasks are
+performed.
+18
+
+Lab – 3: Working with PWM and Buzzers
+Aim:
+To understand the working of Nucleo64-STM32L152RE Board and to perform the following tasks:
+• Lab Task-1: Controlling LED brightness with PWM signal with 75% duty cycle.
+• Lab Task-2: Controlling LED brightness with time period 25 seconds and duty cycle 0.5 seconds.
+• Lab Task-3: Generating SA-RE-GA-PA using buzzer and different frequencies.
+• Challenging Task-1: Implementing automotive warning signals with buzzer and switches
+Software Required: ARM Keil Studio (Mbed Online Compiler)
+Hardware Required: Micro USB cable, NUCLEO64-STM32L152 Board, LEDs, Jumper Wires (M-F and
+M-M), Breadboard,Buzzer
+Procedure:
+• Go to ARM Keil Studio (https://studio.keil.arm.com) and log in
+• Select File → New → Mbed Project
+• Click the Example project drop-down list and select “mbed2-example-blinky”
+• In Project name field, provide the name of the new project and click Add project
+• Double click on the “main.cpp” file from the newly created project folder
+• Modify the code in the editor window as per the logic of your application
+20
+• Check for any errors in the program under the “Problems” tab of the panels window
+• If no errors, connect the Nucleo Board to the computer using Micro USB Cable
+• Click Play icon (Run project) to upload and start the code execution on the board.
+Lab Task 1: Controlling LED brightness with PWM signal with 75% duty cycle
+Aim: Write a C++ program with mbed APIs to control the brightness of the LED using a PWM signal
+with duty cycle 75%.
+Assume PWM period as 2 Seconds. Implement and verify this logic on the STM32 Nucleo-64 board using
+Keil Studio
+CloudIDE.
+Program:
+Output:
+#include "mbed.h"
+PwmOut led(PC_8);
+int main(){
+led.period(2.0f);
+led.write(0.75f);
+while(1);
+}
+21
+Output Verification:
+Inference:
+In this lab task, we initialized a PWM signal on pin PC_8 with a period of 2 seconds and a 75% duty
+cycle. We controlled the brightness of the LED connected to pin PC_8 by turning it on for 75% of
+22
+the time.
+Lab Task 2: Controlling LED brightness with time period 10 seconds and duty cycle 0.5 seconds.
+Aim: Write a C++ program with mbed APIs to gradually increase and decrease LED brightness using
+PWM signal
+with variable duty cycle. Assume the LED is connected to PC_8 PWM pin, time period of the PWM
+signal as 10ms,
+increment/decrement duty cycle value is 10% and delay between each increment/decrement duty cycle is
+0.5s.
+Implement and verify this logic on the STM32 Nucleo-64 board using Keil Studio Cloud IDE.
+Program:
+Output:
+#include "mbed.h"
+PwmOut led(PC_8);
+int main(){
+led.period_ms(10);
+led=0.0;
+while(true){
+for(float val=0.0;val<1.0;val+=0.25){
+led=val;
+wait(0.5);
+}
+for(float val=1.0;val>0.0;val-=0.25){
+led=val;
+wait(0.5);
+}
+}
+}
+23
+Output Verification:
+Inference:
+In this lab task, we initialized a PWM signal on pin PC_8 with a period of 10 millisecond. We
+control the LED connected to pin PC_8 by increasing and decreasing its duty cycle.
+Lab Task 3: Generating SA-RE-GA-PA using buzzer and different frequencies.
+24
+Aim: Write a C++ code with mbed APIs to generate a music note SA-RE-GA-MA-PA-THA-NEE on the
+buzzer using PWM signal. Frequency for each music tone is listed below.
+Implement and verify this logic on the STM32 Nucleo-64 board using Keil Studio Cloud IDE.
+Program:
+Output:
+#include "mbed.h"
+PwmOut speaker(PC_8);
+int main(){
+speaker.period(1.0/240.0)
+speaker=0.5;
+wait(0.5);
+speaker.period(1.0/270.0)
+speaker=0.5;
+wait(0.5);
+speaker.period(1.0/300.0)
+speaker=0.5;
+wait(0.5);
+speaker.period(1.0/337.5)
+speaker=0.5;
+wait(0.5);
+speaker.period(1.0/360.0)
+speaker=0.5;
+wait(0.5);
+speaker.period(1.0/400.0)
+speaker=0.5;
+wait(0.5);
+speaker.period(1.0/450.0)
+speaker=0.5;
+wait(0.5);
+speaker(0.0);
+}
+25
+Output Verification:
+26
+Inference:
+In this lab task, we generate a music note SA-RE-GA-MA-PA-THA-NEE on a buzzer connected to
+pin PC_8 with different frequencies with a 50% duty cycle and a wait period of 0.5 seconds.
+Challenging Task: Write a C++ program with mbed APIs to design a warning signals system for Automotive with
+the following logic.
+• Use 4 switch and one buzzer to generate four warning signals such as indicator signal, horn sound, seat
+belt warning and reversing signal.
+• Assume each of these warning signals must have 50% duty cycle and 0.5s delay between their ON and
+OFF state.
+• Activate the respective warning signal as per the following switch status,
+• If Switch-1 is HIGH, generate a indicator signal (2 Hz)
+• If Switch-2 is HIGH, generate a Horn signal (400 Hz)
+• If Switch-3 is HIGH, generate a Seat belt warning signal (612 Hz)
+• If Switch-4 is HIGH, generate a Reversing signal (1000 Hz)
+• If all switches are LOW, the buzzer should be in OFF state
+27
+Implement and verify this logic on the STM32 Nucleo-64 board using Keil Studio Cloud IDE.
+Program:
+Output:
+#include "mbed.h"
+PwmOut buzzer(PC_8);
+BusIn button(PC_4,PB_13,PB_14,PB_15);
+int main() {
+while(1) {
+if(button == 8){
+buzzer.period(1.0f/2.0f);
+buzzer = 0.5;
+wait_us(500000);
+}
+else if (button == 4) {
+buzzer.period(1.0f/400.0f);
+buzzer = 0.5;
+wait_us(500000);
+}
+else if (button == 2) {
+buzzer.period(1.0f/612.0f);
+buzzer = 0.5;
+wait_us(500000);
+}
+else if (button == 1) {
+buzzer.period(1.0f/1000.0f);
+buzzer = 0.5;
+wait_us(500000);
+}
+else
+{
+buzzer = 0.0;
+}
+}
+}
+28
+Output Verification:
+29
+Inference:
+In this lab task, we design a warning signal for automotives using 4 switches and one buzzer, with
+each warning signal having a 50% duty cycle and 0.5 second delay between their on and off state.
+The warning signals are activated according to the given logic.
+Result:
+The working of Nucleo-STM32L152RE microcontroller board is studied and the required tasks are
+performed.
+30
+
+31
+LAB – 04: WORKING WITH SERIAL PORT AND ADC
+AIM:
+To understand the working of Nucleo64-STM32L152RE Board and to perform the
+following tasks:
+Lab Task-1: Write a C++ code with mbed APIs to receive a character (H) from PC
+via host terminal application (Tera term) & switch ON the LED1. For all other character
+LED1 must be in OFF state. Implement and verify this logic on the STM32 Nucleo-64
+board using Keil Studio Cloud IDE.
+Lab Task-2: Write a C++ program with mbed APIs to gradually increase and
+decrease LED brightness by receiving a character (“i” for increase and “d” for decrease)
+from PC via host terminal application (Tera term) using PWM signal with variable duty
+cycle. Implement and verify this logic on the STM32 Nucleo-64 board using Keil Studio
+Cloud IDE.
+Task-3: Write a C++ program with mbed APIs to gradually increase and decrease LED
+brightness by changing the position of the Potentiometer via ADC. Also print its voltage value
+on serial monitor. Use Implement and verify this logic on the STM32 Nucleo-64 board using
+Keil Studio Cloud IDE.
+Challenging Task: Write a C++ program with mbed APIs to design a battery level
+indicator system using potentiometer and LEDs. The system must display the
+different level of the voltage with the help of 5 LEDs as per following conditions.
+• If the voltage is between 0 to 1V glow LED1 and display “0 to 1V” in serial
+monitor
+• If the voltage is between 1 to 2V glow LED1 and LED2 “1 to 2V” in serial
+monitor
+• If the voltage is between 2 to 3V glow LED1 to LED3 “2 to 3V” in serial
+monitor
+• If the voltage is between 3 to 4V glow LED1 to LED4 “3 to 4V” in serial
+monitor
+• If the voltage is between 4 to 5V glow LED1 to LED5 “4 to 5V” in serial
+monitor
+Implement and verify this logic on the STM32 Nucleo-64 board using Keil Studio
+Cloud IDE.
+32
+SOFTWARE REQUIRED: ARM Keil Studio (Mbed Online Compiler)
+HARDWARE REQUIRED: Micro USB cable, NUCLEO64-STM32L152 Board, LEDs,
+Jumper Wires, Breadboard, Potentiometer.
+PROCEDURE:
+1. Go to ARM Keil Studio (https://studio.keil.arm.com) and log in
+2. Select File → New → Mbed Project
+3. Click the Example project drop-down list and select “mbed2-example-blinky”
+4. In Project name field, provide the name of the new project and click Add project
+5. Double click on the “main.cpp” file from the newly created project folder
+6. Modify the code in the editor window as per the logic of your application
+7. Check for any errors in the program under the “Problems” tab of the panels window
+8. If no errors, connect the Nucleo Board to the computer using Micro USB Cable
+9. Click Play icon (Run project) to upload and start the code execution on the board.
+33
+TASK 1: Controlling LED using USB Virtual serial port
+Program:
+Output:
+#include<mbed.h>
+Serial pc(USBTX,USBRX); DigitalOut myled(PC_8); int main(){
+printf("press a character:"); while(1){
+int y = pc.getc(); printf("%c\n",y);
+if(y == 'H'){
+myled = 1; wait(0.2);
+}
+else{
+myled = 0;
+}
+}
+}
+34
+In Fig.1 above, the LED glows when the letter H is pressed on the keyboard and is in OFF state
+when any other letter is pressed
+OUTPUT VERIFICATION:
+INFERENCE:
+This lab task shows that the Nucleo64-STM32L152RE Board and ARM Keil Studio (Mbed
+Online Compiler) and Tera Term can control an LED by controlling the condition in which it
+glows.
+TASK 2: Increasing/Decreasing Brightness Using Serial Port
+Program:
+#include <mbed.h>
+Serial pc(USBTX, USBRX); PwmOut myled(PC_8); float brightness = 0.0;
+int main() { myled.period_ms(1.0f); while (1) {
+pc.printf("Enter the command to increase/decrease the brightness (i/d):\r\n");
+char c = pc.getc();
+if (c == 'i') {
+pc.printf("Increasing the brightness by 10%%:\r\n"); brightness += 0.1;
+if (brightness > 1.0) { brightness = 1.0;
+}
+myled = brightness;
+}
+if (c == 'd') {
+35
+Output:
+In Fig. 2 above, the brightness of the LED increases by 10% when we press ‘i’ on the keyboard
+and decreases by 10% when we press ‘d’
+if (brightness > 0.0) {
+pc.printf("Decreasing the brightness by 10%%:\r\n"); brightness -= 0.1;
+if (brightness < 0.0) { brightness = 0.0;
+}
+myled = brightness;
+} else {
+pc.printf("Brightness is already at its minimum.\r\n");
+}
+}
+}
+}
+36
+OUTPUT VERIFICATION:
+INFERENCE:
+This lab task shows that the Nucleo64-STM32L152RE Board, ARM Keil Studio (Mbed Online Compiler), and
+Tera Term can be utilized to vary the brightness of an LED conditionally..
+TASK 3: Increasing/Decreasing Brightness Using Potentiometer
+Program:
+37
+Output:
+#include<mbed.h>
+Serial pc(USBTX,USBRX); AnalogIn ain(PC_3); PwmOut PWM1(PC_8);
+int main(){
+float value = ain; while(1){
+value = ain;
+pc.printf("The reading of pot:%f",value); wait(1);
+PWM1.period(0.01); PWM1 = ain;
+}
+}
+38
+In Fig. 3 above, the brightness of the LED changes by changing the position of the
+potentiometer.
+OUTPUT VERIFICATION:
+INFERENCE:
+This lab task shows that the Nucleo64-STM32L152RE Board, ARM Keil Studio (Mbed
+Online Compiler) and Tera Term can be utilized to change the brightness of an LED by
+changing the position of a potentiometer.
+Challenging TASK: Battery level indicator
+39
+#include<mbed.h>
+Serial pc(USBTX,USBRX);
+BusOut myled1(PC_8,PC_6,PC_5,PC_9,PB_8); AnalogIn ain(PC_3);
+int main(){ while(1){
+wait(0.5)
+float value = ain*10;
+printf("value of ain is: %f", value); if(value>=0 && value<=1){
+myled1 = 0b10000; printf("0 t0 1v");
+}
+else if(value>=1 && value<=2){ myled1 = 0b11000; printf("1 t0 2v");
+}
+else if(value>=2 && value<=3){ myled1 = 0b11100; printf("2 t0 3v");
+}
+else if(value>=3 && value<=4){ myled1 = 0b11110; printf("3 t0 4v");
+}
+else if(value>=4 && value<=5){ myled1 = 0b11111; printf("4 t0 5v");
+}
+}
+}
+40
+Output:
+In Fig. 4 above, the LEDs are glowing based on the voltage given by the potentiometer.
+41
+INFERENCE:
+This lab task shows that the Nucleo64-STM32L152RE Board, ARM Keil Studio (Mbed Online Compiler)
+and Tera Term can be utilized to design a Battery Level Indicator in whichdifferent LEDs glow according
+to the voltage given by the potentiome.
+RESULT:
+Thus, the LEDs were controlled according to the given conditions in the lab tasks and the
+output was successfully obtained using the Nucleo64-STM32L152RE Board, ARM Keil Studio
+(Mbed Online Compiler) and Tera Term.
+42
+
+LAB – 05: Working with LCD
+AIM:
+To understand the working of Nucleo64-STM32L152RE Board and to perform the following tasks:
+Lab Task-1: Write a program for 16x2 LCD to display your register number (ex: “20BEC1001”) at row-0
+3
+rd position and your name (ex:“ABCDEFGH”) at beginning of the row-1. Assume LCD operates in 4-bit
+with EN and RS active state. Design and verify this logic on Nucleo 152RE board using online Keil
+Studio platform.
+Lab Task-2: Write a program to display a continuous count variable value on the LCD display on row-1
+5th position. Assume LCD operates in 4-bit with EN and RS active state. Design and verify this logic on
+Nucleo 152RE board using online Keil Studio platform.
+Lab Task-3: Write a program to display the potentiometer value with 4 decimal places on the LCD
+display on row-1 5th position. Assume LCD operates in 4 bit with EN and RS active state. Design and
+verify this logic on Nucleo 152RE board using online Keil Studio Platform
+Software Required: ARM Keil Studio (Mbed Online Compiler)
+Hardware Required: Micro USB cable, NUCLEO64-STM32L152 Board, LEDs, Jumper Wires (M-F and MM), Breadboard, buzzer.
+Procedure:
+1. Go to ARM Keil Studio (https://studio.keil.arm.com) and log in
+2. Select File → New → Mbed Project
+3. Click the Example project drop-down list and select “mbed2-example-blinky”
+4. In Project name field, provide the name of the new project and click Add project
+5. Double click on the “main.cpp” file from the newly created project folder
+44
+6. Modify the code in the editor window as per the logic of your application
+7. Check for any errors in the program under the “Problems” tab of the panels window
+8. If no errors, connect the Nucleo Board to the computer using Micro USB Cable
+9. Click Play icon (Run project) to upload and start the code execution on the board.
+PROGRAM:
+Lab Task-1: Write a program for 16x2 LCD to display your register number (ex: “20BEC1001”) at
+row-0 3rd position and your name (ex:“ABCDEFGH”) at beginning of the row-1. Assume LCD
+operates in 4-bit with EN and RS active state. Design and verify this logic on Nucleo 152RE board
+using online Keil Studio platform.
+Program:
+#include "mbed.h"
+#include "TextLCD.h"
+TextLCD lcd(PC_0,PC_1,PB_0,PA_4, PA_1, PA_0); // rs, e, d4-d7
+int main()
+{
+lcd.locate(3,0);
+lcd.printf("21BLC1122\n");
+lcd.locate(0,1);
+lcd.printf("Vaibhav\n");
+}
+Output:
+45
+Output Verification:
+INFERENCE:
+The code is to achieve the desired display on a 16x2 LCD with 4-bit mode and active
+EN and RS states: Configure the Nucleo L152RE GPIO pins for communication with
+the LCD, then initialize the LCD, set the cursor positions, and send the register
+number to row-0 and name to row-1 accordingly. TASK 2: Read the input from Serial Window
+Lab Task-2: Write a program to display a continuous count variable value on the LCD display on
+row-1 5th position. Assume LCD operates in 4-bit with EN and RS active state. Design and verify
+this logic on Nucleo 152RE board using online Keil Studio platform.
+46
+Program:
+#include "mbed.h"
+#include "TextLCD.h"
+TextLCD lcd(PC_0,PC_1,PB_0,PA_4,PA_1,PA_0);
+Serial pc(USBTX,USBRX);
+int main()
+{
+lcd.cls();
+while(1) {
+char in = pc.getc();
+lcd.printf("%c",in);
+}
+}
+Output:
+Output Verification:
+47
+INFERENCE:
+In this lab task, we displayed the input from the Serial Window on the LCD.
+Lab Task-3: Write a program to display the potentiometer value with 4 decimal places on the LCD
+display on row-1 5th position. Assume LCD operates in 4 bit with EN and RS active state. Design
+and verify this logic on Nucleo 152RE board using online Keil Studio Platform
+Program:
+#include "mbed.h"
+#include "TextLCD.h"
+AnalogIn ain(PC_5);
+TextLCD lcd(PC_0,PC_1,PB_0,PA_4,PA_1,PA_0); // rs,e,d4-d7
+int main()
+{
+lcd.cls();
+while(1) {
+float value = ain*5;
+lcd.locate(5,0);
+lcd.printf("v = %0.3f",value); wait(2);
+lcd.cls();
+wait(1);
+48
+Output:
+Output Verification:
+}
+}
+49
+INFERENCE:
+In this lab task, we display the potentiometer value on the LCD display.
+RESULT:
+We got the understanding of the STM board with LCD and STM-32 with LCD
+50
+
+LAB – 06: Working with Servo Motor, PWM and LDR
+AIM:
+To understand the working of Nucleo64-STM32L152RE Board and to perform the following
+tasks:
+• Lab Task-1: Controlling angle of rotation of servo motor.
+• Lab Task-2: Working of LDR and its change in LED Light.
+• Challenging Task 1: Solar Tracking System
+Software Required: ARM Keil Studio (Mbed Online Compiler)
+Hardware Required: Micro USB cable, NUCLEO64-STM32L152 Board, LEDs, Jumper Wires
+(M-F and M-M), Breadboard
+Procedure:
+1. Go to ARM Keil Studio (https://studio.keil.arm.com) and log in.
+2. Select File → New → Mbed Project
+3. Click the Example project drop-down list and select “mbed2-example-blinky.”
+4. In the Project name field, provide the name of the new project and click Add project.
+5. Double click on the “main.cpp” file from the newly created project folder
+6. Modify the code in the editor window as per the logic of your application.
+7. Check for any errors in the program under the “Problems” tab of the panels window.
+8. If no errors, connect the Nucleo Board to the computer using Micro USB Cable
+9. Click Play icon (Run project) to upload and start the code execution on the board.
+PROGRAM:
+Lab Task 1: Controlling angle of rotation of servo motor.
+#include "mbed.h"
+52
+Output:
+PwmOut PWM1(PC_8);
+int main() {
+while(1){
+PWM1.period_ms(20);
+PWM1.pulsewidth_us(500);
+wait(1);
+PWM1.pulsewidth_us(1000);
+wait(1);
+PWM1.pulsewidth_us(1500);
+wait(1);
+PWM1.pulsewidth_us(2000);
+wait(1);
+PWM1.pulsewidth_us(2500);
+wait(1);
+}
+}
+53
+Output Verification:
+INFERENCE:
+54
+In this lab task, we controlled the servo motor one degree at a time using Keil
+Studio Cloud IDE.
+PROGRAM:
+Lab Task 2: Working of LDR and its change in LED Light.
+Output:
+#include "mbed.h"
+PwmOut PWM1(PC_8);
+AnalogIn Ain(PC_3);
+Serial pc(USBTX,USBRX);
+int main()
+{
+while (1){
+float value = Ain;
+PWM1.period(0.010);
+pc.printf("%f", value);
+PWM1=Ain-0.69;
+wait(1);
+}
+}
+55
+Output Verification:
+INFERENCE:
+In this lab task, we designed an auto intensity street light controller. In this system, the LED
+gets switched on automatically as per surrounding brightness
+56
+PROGRAM:
+
+
+Challenging Task: Challenging Task: Solar Tracking System
+#include "mbed.h"
+#include "TextLCD.h"
+AnalogIn ldr1(A0);
+AnalogIn ldr2(A1);
+PwmOut servo(D6);
+TextLCD lcd(D8, D9, D10, D11, D12, D13);
+int main() {
+float ldr1_val, ldr2_val;
+float servo_pos = 0.5; // Initial position of servo
+while(1) {
+ldr1_val = ldr1.read();
+ldr2_val = ldr2.read();
+// Calculate the difference between LDR values
+float diff = ldr1_val - ldr2_val;
+// Adjust servo position based on the difference
+if (diff > 0.05) {
+servo_pos += 0.01;
+} else if (diff < -0.05) {
+servo_pos -= 0.01;
+}
+57
+Output:
+// Limit servo position to 0-1 range
+if (servo_pos < 0) {
+servo_pos = 0;
+} else if (servo_pos > 1) {
+servo_pos = 1;
+}
+// Move the servo to the calculated position
+servo.write(servo_pos);
+// Display LDR values and servo position on LCD
+lcd.cls();
+lcd.printf("LDR1: %.2f\nLDR2: %.2f\nServo: %.2f", ldr1_val, ldr2_val, servo_pos);
+wait(0.5); // Delay for stability
+}
+}
+58
+Output Verification:
+INFERENCE:
+In this lab task, we designed a solar tracking system. We placed two LDRs, which are angled
+away from each other by around 90 making a 180-degree radian overall, to a servo and we
+rotate the servo depending on the surrounding brightness.
+RESULT:
+59
+Thus, the given lab tasks were performed successfully using Nucleo64-STM32L152RE Board,
+Keil Studio Cloud IDE. We were able to control the rotation of the servo motor, and control.
+the blinking of an LED based on LDR and also control the rotation of the servo motor on the
+basis. of the light received by two LDRs angled away from each other.
+60
+
+
+LAB – 07: Working with Ultrasonic Sensor
+
+
+AIM:
+Lab task-1: Read the distance value from HC-SR04 and print it on serial monitor
+Write a program to read distance value from HC-SR04 ultrasonic sensor module in cm and print it on the
+serial monitor. Implement and verify this logic on the STM32 Nucleo-64 board using Keil Studio Cloud
+IDE.
+Lab task-2: Reverse parking sensor module (Exercise)
+Write a program to design a reverse parking sensor module. This module consist of HC-SR04 ultrasonic
+sensor, LCD and buzzer interfaced with Nucleo. The ultrasonic sensor continuously measure the distance
+(in cm) between the car and obstacle, then display it on the first row of the LCD. Whenever the measured
+distance is lesser than 30cm generate warning signal to driver using buzzer also display a message
+“Obstacle !!!” on the second row of the LCD display. Implement and verify this logic on the STM32
+Nucleo-64 board using Keil Studio Cloud IDE.
+Challenging task: Smart Parking system
+Write a program to design smart parking system using HC-SR04 ultrasonic sensor, servo motor, buzzer,
+LCD and STM32 Nucleo-64 board.
+The ultrasonic sensor module place near the gate entrance continuously check for the incoming
+vehicles. The LCD display “Smart Parking” on the first row and “Avail. slot: XY” in second row of the
+display.
+When a vehicle comes closer to the ultrasonic sensor detection area and parking slot is available then
+the system open a gate barrier to 90° (close after 10 seconds) to allow the vehicle enter into the parking
+slot and decrement parking slot by 1.
+If no parking slot available then display a message “No Parking slot” on LCD (2nd line) and switch on
+the buzzer (for 5 Seconds). Have a similar system on the exit and increment the free slot by 1 for every
+vehicle leaves the parking slot. Simulate and verify this logic on Nucleo using Tinkercad circuits
+simulator.
+Note: XY is number of available slot and initially assume total available parking slot is 5.
+Software Required: ARM Keil Studio (Mbed Online Compiler)
+Hardware Required: Micro USB cable, NUCLEO64-STM32L152 Board, LEDs, Jumper Wires (M-F and MM), Breadboard
+Procedure:
+62
+1. Go to ARM Keil Studio (https://studio.keil.arm.com) and log in
+2. Select File → New → Mbed Project
+3. Click the Example project drop-down list and select “mbed2-example-blinky”
+4. In Project name field, provide the name of the new project and click Add project
+5. Double click on the “main.cpp” file from the newly created project folder
+6. Modify the code in the editor window as per the logic of your application
+7. Check for any errors in the program under the “Problems” tab of the panels window
+8. If no errors, connect the Nucleo Board to the computer using Micro USB Cable
+9. Click Play icon (Run project) to upload and start the code execution on the board.
+Lab task-1: Read the distance value from HC-SR04 and print it on serial monitor
+PROGRAM:
+#include "mbed.h"
+Serial PC(USBTX,USBRX);
+DigitalOut trigger(PC_8);
+DigitalIn echo(PC_6);
+int distance=0;
+Timer sonar;
+int main()
+{
+while(1) {
+trigger=1;
+sonar.reset();
+wait_us(10.0);
+trigger=0;
+while(echo==0);
+sonar.start();
+while(echo==1);
+sonar.stop();
+distance=(sonar.read_us())/58.0;
+PC.printf("Distance is %d cm \n\r",distance);
+wait(0.2);
+}
+}
+Output:
+63
+Fig.1: Read the distance value from HCSR04 and print it on serial monitor.
+Output Verification:
+64
+65
+INFERENCE:
+Hence, we understand how to read the distance value from HC-SR04 and print it on serial
+monitor.
+Lab task-2: Reverse parking sensor module
+PROGRAM:
+#include "mbed.h"
+#include "TextLCD.h"
+TextLCD lcd(PC_0,PC_1,PB_0,PA_4,PA_1,PA_0);
+DigitalOut trigger(PC_8);
+DigitalIn echo(PC_6);
+DigitalOut buzzer(PC_10);
+int distance=0;
+Timer sonar;
+int main()
+{
+lcd.cls();
+while(1) {
+trigger=1;
+sonar.reset();
+wait_us(10.0);
+trigger=0;
+while(echo==0);
+sonar.start();
+while(echo==1);
+sonar.stop();
+distance=(sonar.read_us())/58.0;
+lcd.locate(5,0);
+lcd.printf("Distance is %d cm \n\r",distance);
+wait(0.2);
+if(distance>15)
+{
+}
+else
+{
+}
+}
+}
+buzzer=1;
+lcd.locate(2,1);
+lcd.printf("Obstacle!!!",distance);
+buzzer=0;
+Output:
+66
+Fig 2: Reverse parking sensor module
+Output verification:
+INFERENCE:
+Hence, we understand how to build a reverse parking sensor module using STM-32 Nucleo-64
+board and studio keil arm studio IDE.
+Challenging task: Smart Parking system
+PROGRAM:
+#include "mbed.h"
+#include "TextLCD.h"
+TextLCD lcd(PC_0, PC_1, PB_0, PA_4, PA_1, PA_0);
+DigitalOut trigger(PC_8);
+DigitalIn echo(PC_6);
+DigitalOut buzzer(PC_10);
+PwmOut gate(PC_9);
+Serial pc(USBTX,USBRX);
+67
+int capacity = 8;
+int distance = 0;
+Timer sonar;
+int main() {
+gate.period_ms(20);
+while(1){
+//Send Trigger
+trigger = 1;
+sonar.reset();
+wait_us(10);
+trigger = 0;
+//Sense On Duration of Echo
+while(echo==0);
+sonar.start();
+while(echo==1);
+sonar.stop();
+//Calculate Distance
+distance = (sonar.read_us())/58.0;
+//pc.printf("Distance is %d cm\n\r",distance);
+//Check if Car Close
+if(distance<15) {
+//Display Initial Values On LCD
+lcd.locate(0,0);
+lcd.printf("Smart Parking");
+lcd.locate(0,1);
+pc.printf("Capacity : %d\n\r", capacity);
+if(capacity!=0) {
+lcd.printf("Avail. Slot: %d",capacity);
+pc.printf("Avail. Slot: %d\n\r",capacity);
+gate.pulsewidth_us(1500);//Open the Gate
+pc.printf("Gate Open\n\r");
+buzzer = 1;//Buzzer ON
+pc.printf("Buzzer ON\n\r");
+wait(5);
+gate.pulsewidth_us(500);//Cose the Gate
+pc.printf("Gate Close\n\r");
+buzzer = 0;//Buzzer OFF
+pc.printf("Buzzer ON\n\r");
+capacity--;
+pc.printf("Capacity Decremented\n\r");
+pc.printf("New Capacity : %d\n\r", capacity);
+}
+else {
+lcd.printf("No Parking Slot",capacity);
+pc.printf("No Parking Slot\n\r");
+68
+buzzer = 1;//Buzzer ON
+pc.printf("Buzzer ON\n\r");
+wait(2);
+buzzer = 0;//Buzzer OFF
+pc.printf("Buzzer ON\n\r");
+}
+lcd.cls();
+}
+}
+}
+Output:
+Fig 4: Smart Parking system
+Output verification
+INFERENCE:
+69
+Hence. We understand how to build a smart Parking system and implement the same logic in
+STM32 Nucleo-64 board using Keil Studio Cloud IDE.
+RESULT:
+Thus , the implementation of ultrasonic sensor is done and implemented the same using
+STM32 Nucleo-64 board using Keil Studio Cloud IDE.
+70
+
+AIM:
+To understand the working of Nucleo64-STM32L152RE Board and to perform the following
+tasks:
+Lab Task-1: Read the input from Master and display on Slave
+Lab Task-2: Exchange of button press state between Master and Slave
+Software Required: ARM Keil Studio (Mbed Online Compiler), Tera Term
+Hardware Required: Micro USB cable, NUCLEO64-STM32L152 Board, LEDs, Jumper
+Wires (M-F and M- M), Breadboard
+Procedure:
+1. Go to ARM Keil Studio (https://studio.keil.arm.com) and log in
+2. Select File → New → Mbed Project
+3. Click the Example project drop-down list and select “mbed2-example-blinky”
+4. In Project name field, provide the name of the new project and click Add project
+5. Double click on the “main.cpp” file from the newly created project folder
+6. Modify the code in the editor window as per the logic of your application
+7. Check for any errors in the program under the “Problems” tab of the panels window
+8. If no errors, connect the Nucleo Board to the computer using Micro USB Cable
+9. Click Play icon (Run project) to upload and start the code execution on the board.
+PROGRAM:
+Lab Task 1: Read the input from Master and display on Slave
+Program for Master
+#include "mbed.h"
+SPI spi(PB_15, PB_14, PB_13) ;
+DigitalOut cs(PB_12) ;
+Serial pc (USBTX, USBRX) ;
+int main (){
+char send_val;
+pc.printf("Press any ket to start... \n");
+72
+Program for Slave
+Output
+Output Verification:
+while (1){
+send_val = pc.getc();
+pc.printf("%c",send_val);
+cs=0;
+spi.write(send_val);
+cs=1;
+wait (0.01);
+}
+}
+#include "mbed.h"
+SPISlave spi (PB_15,PB_14,PB_13, PB_12);
+Serial pc (USBTX, USBRX);
+char recd_val;
+int main(){
+pc.printf ("Received word is... \n");
+while(1){
+if (spi.receive()){
+recd_val=spi.read();
+pc.printf("%c", recd_val);
+}
+}
+}
+73
+INFERENCE:
+In this lab task, we configure one Nucleo board as Master and other as Slave and display each
+key press on the master’s Teraterm to the slave Teraterm terminal.
+PROGRAM:
+74
+Lab Task 2: Exchange of button press state between Master and Slave
+Program for Master
+Program for Slave
+#include "mbed.h"
+SPI ser_port(PB_15,PB_14, PB_13);
+DigitalOut led (PC_8);
+DigitalIn switch_ip(PC_4);
+DigitalOut cs(PB_12);
+Serial pc(USBTX, USBRX);
+char switch_word_tx;
+char tx_val;
+int main(){
+while(1)
+{
+switch_word_tx=0x00;
+if(switch_ip==1)
+switch_word_tx=switch_word_tx|0x01;
+cs=0;
+tx_val=ser_port.write(switch_word_tx);
+cs=1;
+wait(1);
+led=0;
+tx_val=tx_val&0x01;
+if(tx_val==1)
+led=1;
+}
+}
+#include "mbed.h"
+SPI ser_port(PB_15,PB_14,PB_13,PB_12);
+DigitalOut led(PC_8);
+DigitalIn switch_ip(PC_4);
+Serial pc(USBTX, USBRX);
+char switch_word_rx;
+char rx_val;
+int main(){
+while(1)
+{
+switch_word_rx=0x00;
+if(switch_ip==1)
+switch_word_rx=switch_word_rx|0x01;
+if(ser_port.receive()){
+rx_val=ser_port.read();
+wait(1);
+ser_port.reply(switch_word_rx);
+}
+led=0;
+75
+Output
+Output Verification
+rx_val=rx_val&0x01;
+if(rx_val==1)
+led=1;
+}
+}
+76
+INFERENCE:
+In this lab task, we control the Master LED by using slave Nucleo’s push button and control
+slave Nucleo’s LED by master Nucleo’s push button using SPI communication protocol.
+77
+
+LAB – 09: Working with Bluetooth HC-05
+
+
+AIM:
+Lab task-1: Print name & reg.No in smart phone and serial monitor via Bluetooth
+Write a program to transmit your Name and register number from serial monitor to smart phone via
+bluetooth HC-05 module and vice versa. Implement and verify this logic on the STM32 Nucleo-64 board
+using Keil Studio Cloud IDE.
+Lab task-2: Home Automation System
+Write a program to design a Home automation system to control the home appliances through smart
+phone. This System consist of HC-05 Bluetooth module, LCD and buzzer interfaced with Nucleo. The
+system receives the input from smart phone through bluetooth app : based on the value, it controls the
+LED and buzzer as per the below:
+➢ If the received character is ‘1’ , LED should be ON and display the message ‘LED ON’ on
+serial monitor.
+➢ If the received character is ‘2’ , LED should be OFF and display the message ‘LED OFF’
+on serial monitor.
+➢ If the received character is ‘3’ , Buzzer should be ON and display the message ‘Buzzer ON’ on
+serial monitor.
+➢ If the received character is ‘4’ , Buzzer should be OFF and display the message ‘Buzzer
+OFF’ on serial monitor.
+➢ Implement and verify this logic on the STM32 Nucleo-64 board using Keil Studio Cloud IDE
+Challenging Task: Temperature sensor LM35 interfacing
+Write a program to design a temperature monitoring system using LM 35 and HC-05 Bluetooth module,
+buzzer and STM32 Nucleo-64 board.
+➢ Read the temperature continuously from LM35 temperature sensor and display it on smart phone
+➢ When the temperature goes above 35 C, turn on the buzzer.
+➢ Design and verify this logic on Nucleo 152RE board using online Keil Studio platform.
+Software Required: ARM Keil Studio (Mbed Online Compiler)
+Hardware Required: Micro USB cable, NUCLEO64-STM32L152 Board, LEDs, Jumper Wires (M-F and MM), Breadboard
+Procedure:
+1. Go to ARM Keil Studio (https://studio.keil.arm.com) and log in
+2. Select File → New → Mbed Project
+3. Click the Example project drop-down list and select “mbed2-example-blinky”
+4. In Project name field, provide the name of the new project and click Add project
+79
+5. Double click on the “main.cpp” file from the newly created project folder
+6. Modify the code in the editor window as per the logic of your application
+7. Check for any errors in the program under the “Problems” tab of the panels window
+8. If no errors, connect the Nucleo Board to the computer using Micro USB Cable
+9. Click Play icon (Run project) to upload and start the code execution on the board.
+Lab task-1: Print name & reg.No in smart phone and serial monitor via Bluetooth
+PROGRAM:
+Output:
+#include "mbed.h"
+Serial pc(USBTX,USBRX);
+Serial bt(PC_10,PC_11);
+int main() {
+pc.baud(9600);
+bt.baud(9600);
+pc.printf("Hello World!\n\r");
+while(1) {
+if(bt.readable())
+{
+ch=bt.getc();
+pc.printf("%c",ch);
+}
+else if(pc.readable()) {
+ch=pc.getc();
+bt.printf("%c",ch);
+}
+}
+}
+80
+81
+82
+Fig.1: Print name & reg.No in smart phone
+and serial monitor via Bluetooth.
+83
+Output Verification:
+INFERENCE:
+Hence, we understand how to print name & reg.No in smart phone and serial monitor via
+Bluetooth.
+Lab task-2: Home Automation System
+PROGRAM:
+84
+#include "mbed.h"
+Serial pc(USBTX,USBRX);
+Serial bt(PC_10,PC_11);
+DigitalOut led(LED1);
+DigitalOut buzz(PB_8);
+int main() {
+char ch;
+bt.baud(9600);
+pc.baud(9600);
+pc.printf("Lab Task 2\n\r");
+while(1) {
+if(bt.readable()) {
+ch=bt.getc();
+if(ch=='1') {
+led=0;
+pc.printf("Led off\n\r");
+85
+Output:
+Fig 2: Home AutomationSystem.
+Output verification:
+if(ch=='3') {
+buzz=0;
+pc.printf("Buzzer off\n\r");
+}
+if(ch=='4') {
+buzz=1;
+pc.printf("Buzzer On\n\r");
+}
+}
+}
+}
+86
+#include "mbed.h"
+Serial bt (PC_10,PC_11);
+AnalogIn pot(PC_3);
+DigitalOut buzz (PB_8);
+int main() {
+bt.baud (9600);
+while (1) {
+float value = pot*5;
+bt.printf("The temperature is: %f",value);
+if(value>4){
+buzz=1;
+wait(2);
+buzz=0;
+}
+}
+}
+INFERENCE:
+Hence, we understand how to build a Home Automation System.
+Challenging Task: Temperature sensor LM35 interfacing
+PROGRAM:
+Output:
+Fig 3: Temperature sensor
+LM35 interfacing.
+87
+Output verification:
+INFERENCE:
+Hence, we understand how to implement a temperature sensor using LM35 interfacing and
+Bluetooth HC-05 .
+RESULT:
+Thus , the implementation of Bluetooth HC-05 and implemented the same using STM32
+Nucleo-64 board using Keil Studio Cloud IDE.
+88
+
+89
+LAB – 10: Working with I2C
+AIM:
+To understand the Working with I2C.
+SOFTWARE REQUIRED: ARM Keil Studio (Mbed Online Compiler), Tera Term
+HARDWARE REQUIRED: Micro USB cable, NUCLEO64-STM32L152 Board, LEDs, Jumper Wires (M-F
+and M-M), Breadboard,Buzzer, ADXL345.
+PROCEDURE:
+• Go to ARM Keil Studio (https://studio.keil.arm.com) and log in
+• Select File → New → Mbed Project
+• Click the Example project drop-down list and select “mbed2-example-blinky”
+• In Project name field, provide the name of the new project and click Add project
+• Double click on the “main.cpp” file from the newly created project folder
+• Modify the code in the editor window as per the logic of your application
+• Check for any errors in the program under the “Problems” tab of the panels window
+• If no errors, connect the Nucleo Board to the computer using Micro USB Cable • Click Play icon
+(Run project) to upload and start the code execution on the board.
+LAB TASK 1: Read the input from Master and display on Slave
+PROGRAM:
+Master:
+#include "mbed.h"
+Serial pc (USBTX, USBRX); I2C i2c(PB_11, PB_10);
+int main(){
+int address = 0x50; char data[20];
+pc.printf("Enter data to be sent: \r\n");
+pc.scanf("%s", &data);
+pc.printf("%s", data); int len = strlen(data);
+i2c.write(address, data, len); wait(2);
+}
+Slave:
+#include "mbed.h"
+90
+OUTPUT:
+Serial pc(USBTX, USBRX); I2CSlave slave(PB_11, PB_10); int main() {
+char buf[20];
+char msg[] = "Slave!"; slave.address(0xA0); while (1)
+{
+int i = slave.receive(); switch(i) {
+case I2CSlave::ReadAddressed:
+slave.write(msg, strlen(msg) + 1); break;
+case I2CSlave::WriteGeneral: slave.read(buf,20);
+pc.printf("Read1: %s \r\n", buf);
+//wait(1);
+break;
+case I2CSlave::WriteAddressed: slave.read(buf,20);
+pc.printf("Read2: %s \r\n", buf); wait(2);
+break;
+}
+}
+}
+91
+Fig1: Read the
+input from
+Master and
+display on
+Slave
+92
+Output Verification:
+LAB TASK 2: Read Accelerometer axis values and print it in serial monitor.
+PROGRAM:
+#include "mbed.h"
+#include "ADXL345_I2C.h"
+ADXL345_I2C accelerometer(PB_11,PB_10); Serial pc(USBTX, USBRX);
+int X_out_raw, Y_out_raw, Z_out_raw; // Outputs int X_out, Y_out, Z_out; // Outputs
+int main() {
+int readings[3] = {0, 0, 0}; pc.printf("Starting ADXL345 test...\n"); wait(.001);
+pc.printf("Device ID is: 0x%02x\n", accelerometer.getDeviceID()); wait(.001);
+// Test whether any of the initialization fails. if (accelerometer.setPowerControl(0x00)){
+pc.printf("didn't intitialize power control\n"); return 0; } wait(.001);
+//Full resolution, +/-16g, 4mg/LSB. if(accelerometer.setDataFormatControl(0x0B)){
+pc.printf("didn't set data format\n"); return 0; }
+wait(.001);
+//3.2kHz data rate. if(accelerometer.setDataRate(ADXL345_3200HZ)){
+pc.printf("didn't set data rate\n"); return 0; }
+wait(.001);
+//Measurement mode. if(accelerometer.setPowerControl(MeasurementMode)) {
+pc.printf("didn't set the power control to measurement\n"); return 0; } while (1) {
+wait(0.1); accelerometer.getOutput(readings);
+wait(.1);
+X_out_raw = (int16_t)readings[0]; Y_out_raw = (int16_t)readings[1]; Z_out_raw =
+(int16_t)readings[2];
+93
+OUTPUT:
+Fig 2: Read
+Accelerometer
+axis values and
+print it in serial
+monitor
+Output Verification:
+// Low-pass filter for stable X,Y,Z values X_out = 0.94 * X_out + 0.06 * X_out_raw; Y_out
+= 0.94 * Y_out + 0.06 * Y_out_raw; Z_out = 0.94 * Z_out + 0.06 * Z_out_raw;
+pc.printf("%i,%i,%i\r\n",X_out,Y_out,Z_out); }
+}
+94
+INFERENCE:
+The above program implements the working of Bluetooth and the other peripherals.
+RESULT:
+Therefore, various tasks have been done and we understood the working with I2C in Nucleo64STM32L.
+95
+
+LAB – 11: Working with mbed RTOS
+AIM:
+To demonstrate the use of an RTOS (Real-Time Operating System) by implementing a simple
+multitasking application using the ARM Mbed OS
+Lab Task-1: Write an mbed RTOS program to demonstrate a simple multitasking application.
+Create two threads named Thread1 and Thread2. Perform blinking of LED1 connected
+to PC_10 for every one second in Thread1. Terminate the Thread1 operation after 10
+seconds. Perform blinking of LED2 connected to PC_11 for every 0.5 second in
+Thread2. Design and implement this logic on the STM 32 Nucleo L152RE board using
+Keil studio could platform.
+Lab Task-2: Write an mbed RTOS program to demonstrate the use of Mutex and Semaphore
+functionality by creating two threads named Thread1 and Thread2 respectively.
+Create a common function named count that print the value of the variable “i” on serial
+monitor with 1 second delay apart. Assign initial value of variable of “i” as 10.
+Assume Thread1 perform increment by 1 operation on “i” and pass the incremented
+value to “count” function. Thread2 performs decrement by 1 on “i” and pass the
+decremented value to “count” function. Use Mutex/Semaphore to protect the common
+function “count” for Thread1 and Thread2. Design and implement this logic on the STM
+32 Nucleo L152RE board using Keil studio could platform.
+Lab Task-3: Write an mbed RTOS program to demonstrate the use of Signal (event flag) by
+using LED (PC_11) and button (PC_10). Create a thread called Flash which waits for the
+event flag 1 to be set by calling function signal_wait(0x1). Event flag 1 is set when the
+button is pressed by calling function signal_set(0x1). After this point thread active
+and flashes the LED every second. Design and implement this logic on the STM 32
+Nucleo L152RE board using Keil studio could platform.
+Software Required: ARM Keil Studio (Mbed Online Compiler), Tera Term
+97
+Hardware Required: Micro USB cable, NUCLEO64-STM32L152 Board, Breadboard, LED
+Procedure:
+1. Go to ARM Keil Studio (https://studio.keil.arm.com) and log in
+2. Select File → New → Mbed Project
+3. Click the Example project drop-down list and select “mbed2-example-blinky”
+4. In Project name field, provide the name of the new project and click Add project
+5. Double click on the “main.cpp” file from the newly created project folder
+6. Modify the code in the editor window as per the logic of your application
+7. Check for any errors in the program under the “Problems” tab of the panels window
+8. If no errors, connect the Nucleo Board to the computer using Micro USB Cable
+9. Click Play icon (Run project) to upload and start the code execution on the board.
+PROGRAM:
+98
+Lab Task 1: Multitasking application using LEDs
+
+#include "mbed.h"
+#include "rtos.h"
+DigitalOut LED(PC_11);
+DigitalIN SW(PC_10);
+Thread Thread1;
+
+void Flash()
+{
+    Thread::signal_wait(0x1); //wait for signal 0x1
+    while(1)
+    {
+        LED=!LED; //Flash the LED
+        Thread::wait(1000); //wait for 1 second
+    }
+}
+
+int main()
+{
+    Thread1.start(Flash); //Start Thread1
+    while(SW==0); //Wait for switch become HIGH
+    Thread1.signal_set(0x1); //Set signal 0x1
+    while(1); //wait forever
+}
+
+
+Output:
+99
+Output Verification:
+100
+PROGRAM:
+Lab Task 2: Interprocess communication (synchronization) - Mutex and Semaphore
+
+#include "mbed.h"
+#include "rtos.h"
+
+Serial PC(USBTX, USBRX);
+Thread Thread1, Thread2;
+Mutex mutex1;
+
+int i =10;
+
+void count(int i){
+    mutex1.lock();
+    PC.printf("Count value before delay %d\n\r",i);
+    Thread::wait(1000);
+    PC.printf("Count value after delay %d\n\r",i);
+    mutex1.unlock();
+
+}
+
+void increment(){
+i = i+1;
+count(i);
+
+}
+
+void decrement(){
+    i = i-1;
+    count(i);
+}
+
+int main(){
+    Thread1.start(increment);
+    Thread2.start(decrement);
+    Thread1.join();
+    Thread2.join();
+}
+
+Output:
+102
+Output Verification:
+PROGRAM:
+Lab Task 3: Interprocess communication (synchronization) – Signal(Event flag)
+
+#include "mbed.h"
+#include "rtos.h"
+
+DigitalOut led(PC_11);
+DigitalOut SW(PC_10);
+
+Thread Thread1;
+
+void Flash(){
+    Thread::signal_wait(0x1);
+    while(1){
+        led = !led;
+        Thread::wait(1000);
+    }
+}
+
+int main(){
+
+    Thread1.start(Flash);
+    while(SW==0);
+    Thread1.signal_set(0x1);
+    while(1);
+}
+
+Output:
+Output Verification:
